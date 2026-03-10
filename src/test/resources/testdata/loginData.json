@@ -10,5 +10,6 @@
   "messages": {
     "loginSuccessTitle": "You logged into a secure area!",
     "loginError": "Your username is invalid!"
-  }
+  },
+  "loginPageHeading": "Login Page"
 }

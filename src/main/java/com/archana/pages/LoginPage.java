@@ -15,6 +15,7 @@ public class LoginPage {
     By loginButton = By.cssSelector("button[type='submit']");
     By successMessage = By.id("flash");
     By errorMessage = By.cssSelector(".flash.error");
+    By loginPageHeading = By.cssSelector(".example h2");
 
     public LoginPage(){
         this.driver = DriverFactory.getDriver();
@@ -35,20 +36,16 @@ public class LoginPage {
         driver.findElement(loginButton).click();
     }
 
-
     public String getSuccessMessage(){
         return driver.findElement(successMessage).getText().split("\n")[0].trim();
     }
+
     public String getErrorMessage(){
         return driver.findElement(errorMessage).getText().split("\n")[0].trim();
     }
 
-    public boolean isLoginSuccessful(){
-        return driver.findElement(successMessage).isDisplayed();
+    public String getLoginPageHeading(){
+        WaitUtil.waitForElement(loginPageHeading);
+        return driver.findElement(loginPageHeading).getText();
     }
-
-    public boolean isErrorDisplayed(){
-        return driver.findElement(errorMessage).isDisplayed();
-    }
-
 }

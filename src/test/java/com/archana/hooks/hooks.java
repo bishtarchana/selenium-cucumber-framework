@@ -2,7 +2,6 @@ package com.archana.hooks;
 
 import com.archana.driver.DriverFactory;
 import com.archana.utils.ConfigManager;
-import com.archana.utils.JsonUtil;
 import com.archana.utils.ScreenshotUtil;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -17,16 +16,9 @@ public class hooks {
 
     @Before
     public void setUp(){
-        String browser = ConfigManager.getBrowser();
         WebDriver driver;
-        if(browser.equalsIgnoreCase("edge")){
-            WebDriverManager.edgedriver().setup();
-            driver = new EdgeDriver();
-        }else{
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-        }
-        DriverFactory.setDriver(driver);
+        DriverFactory.initializeDriver();
+        driver = DriverFactory.getDriver();
         driver.manage().window().maximize();
         driver.get(ConfigManager.getUrl());
     }

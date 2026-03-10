@@ -13,8 +13,9 @@ public class LoginSteps {
 
     @Given("User is on login page")
     public void user_is_on_login_page() {
-        // Write code here that turns the phrase above into concrete actions
-       //
+        String actual = loginPage.getLoginPageHeading();
+        String expected = LoginDataManager.getExpectedLoginPageHeading();
+        Assert.assertEquals(actual,expected);
     }
 
     @When("User enters valid username and password")

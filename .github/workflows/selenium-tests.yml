@@ -24,7 +24,7 @@ jobs:
       - name: Run Tests on ${{ matrix.browser }}
         run: mvn test -Dbrowser=${{ matrix.browser }}
       - name: Upload Cucumber HTML Reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: CucumberReport-${{ matrix.browser }}
           path: target/cucumber-html-report

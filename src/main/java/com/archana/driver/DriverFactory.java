@@ -1,9 +1,12 @@
 package com.archana.driver;
 
 import com.archana.utils.ConfigManager;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 
 public class DriverFactory
 {
@@ -17,17 +20,32 @@ public class DriverFactory
         driver.set(driverInstance);
     }
 
-    public static void initializeDriver() {
-        String browser = System.getProperty("browser");
-        if (browser == null || browser.isEmpty()) {
-            browser = ConfigManager.getBrowser();
-        }
+    public static void initializeDriver(String browser) {
+        boolean isCI = System.getenv("CI") != null;
         switch (browser.toLowerCase()) {
             case "edge":
-                setDriver(new EdgeDriver());
+                WebDriverManager.edgedriver().setup();
+                EdgeOptions edgeOptions = new EdgeOptions();
+                if(isCI) {
+                    System.out.println("Running in CI mode for Edge browser");
+                    edgeOptions.addArguments("--headless=new");
+                    edgeOptions.addArguments("--no-sandbox");
+                    edgeOptions.addArguments("--disable-dev-shm-usage");
+                    edgeOptions.addArguments("--window-size=1920,1080");
+                }
+                setDriver(new EdgeDriver(edgeOptions));
                 break;
             case "chrome":
-                setDriver(new ChromeDriver());
+                WebDriverManager.chromedriver().setup();
+                ChromeOptions chromeOptions = new ChromeOptions();
+                if(isCI) {
+                    System.out.println("Running in CI mode for Chrome browser");
+                    chromeOptions.addArguments("--headless=new");
+                    chromeOptions.addArguments("--no-sandbox");
+                    chromeOptions.addArguments("--disable-dev-shm-usage");
+                    chromeOptions.addArguments("--window-size=1920,1080");
+                }
+                setDriver(new ChromeDriver(chromeOptions));
                 break;
             default:
                 throw new RuntimeException("Unsupported browser: " + browser);

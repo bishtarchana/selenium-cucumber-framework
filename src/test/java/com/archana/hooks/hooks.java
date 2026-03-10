@@ -17,7 +17,11 @@ public class hooks {
     @Before
     public void setUp(){
         WebDriver driver;
-        DriverFactory.initializeDriver();
+        String browser = System.getProperty("browser");
+        if(browser == null || browser.isEmpty()){
+            browser = ConfigManager.getBrowser();
+        }
+        DriverFactory.initializeDriver(browser);
         driver = DriverFactory.getDriver();
         driver.manage().window().maximize();
         driver.get(ConfigManager.getUrl());

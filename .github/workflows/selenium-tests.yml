@@ -23,8 +23,8 @@ jobs:
         run: mvn clean compile
       - name: Run Tests on ${{ matrix.browser }}
         run: mvn test -Dbrowser=${{ matrix.browser }}
-      - name: Upload Cucumber HTML Reports
+      - name: Upload Extent Report
         uses: actions/upload-artifact@v4
         with:
-          name: CucumberReport-${{ matrix.browser }}
-          path: target/cucumber-html-report
+          name: Selenium-ExtentReport-${{ matrix.browser }}
+          path: reports/ExtentReport.html
